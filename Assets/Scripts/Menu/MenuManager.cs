@@ -5,12 +5,15 @@ using Valve.VR;
 
 public class MenuManager : MonoBehaviour
 {
+    private Canvas canvas = null;
+    public SteamVR_Action_Boolean PreviousAction;
     public Panel currentPanel = null;
     public List<Panel> panelHistory = new List<Panel>();
     private void Start(){
+        canvas = GetComponent<Canvas>();
         SetupPanels();
+        PreviousAction.AddOnStateDownListener(GoToPrevious, SteamVR_Input_Sources.Any);
     }
-
     private void SetupPanels(){
         Panel[] panels = GetComponentsInChildren<Panel>();
         foreach (Panel panel in panels){
@@ -20,17 +23,12 @@ public class MenuManager : MonoBehaviour
         currentPanel.Show();
     }
 
-    private void Update(){
-        if(SteamVR_Actions._default.GrabGrip.state){
-            GoToPrevious();
-        }
-
-    }
-
     public void GoToPrevious(){
+        GoToPrevious(null, SteamVR_Input_Sources.Any);
+    }
+    public void GoToPrevious(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource){
         if(panelHistory.Count == 0){
-            Debug.Log("Back pressed when history is empty");
-            Debug.Log("We should probably ask to quit app");
+            this.Hide();
             return;
         }
         int lastIndex = panelHistory.Count - 1;
@@ -47,5 +45,9 @@ public class MenuManager : MonoBehaviour
         currentPanel.Hide();
         currentPanel = newPanel;
         currentPanel.Show();
+    }
+
+    private void Hide(){
+        canvas.enabled = false;
     }
 }
