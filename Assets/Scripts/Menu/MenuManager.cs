@@ -28,7 +28,7 @@ public class MenuManager : MonoBehaviour
     }
     public void GoToPrevious(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource){
         if(panelHistory.Count == 0){
-            this.Hide();
+            Debug.Log("Back pressed when history is empty");
             return;
         }
         int lastIndex = panelHistory.Count - 1;
@@ -45,9 +45,5 @@ public class MenuManager : MonoBehaviour
         currentPanel.Hide();
         currentPanel = newPanel;
         currentPanel.Show();
-    }
-
-    private void Hide(){
-        canvas.enabled = false;
     }
 }

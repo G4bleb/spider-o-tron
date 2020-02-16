@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR;
-
+using Valve.VR.Extras;
 public class SetMenuInSpace : MonoBehaviour
 {
+    public SteamVR_LaserPointer steamVrLaserPointer;
     public SteamVR_Action_Boolean menuBtnAction;
     private Canvas canvas = null;
     public float distance = 1f;
@@ -12,26 +13,25 @@ public class SetMenuInSpace : MonoBehaviour
     void OnEnable()
     {
         canvas = GetComponent<Canvas>();
-        menuBtnAction.AddOnStateDownListener(OnMenuBtnActionChange, SteamVR_Input_Sources.Any);
+        menuBtnAction.AddOnStateDownListener(OnMenuBtnActionDown, SteamVR_Input_Sources.Any);
 
     }
 
-    private void OnMenuBtnActionChange(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource)
+    private void OnMenuBtnActionDown(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource)
     {
-        canvas.enabled = true;
-        canvas.renderMode = RenderMode.ScreenSpaceCamera;
-        canvas.planeDistance = distance;
-        canvas.renderMode = RenderMode.WorldSpace;
-        // if (canvas.enabled)
-        // {
-        //     canvas.enabled = false;
-        //     // transform.position = canvas.worldCamera.transform.position + canvas.worldCamera.transform.forward * distance;
-        // }
-        // else
-        // {
-        //     canvas.enabled = true;
-        //     canvas.renderMode = RenderMode.ScreenSpaceCamera;
-        //     canvas.renderMode = RenderMode.WorldSpace;
-        // }
+        // canvas.enabled = true;
+        // canvas.renderMode = RenderMode.ScreenSpaceCamera;
+        // canvas.planeDistance = distance;
+        // canvas.renderMode = RenderMode.WorldSpace;
+        if (canvas.enabled)
+        {
+            canvas.enabled = false;
+            // transform.position = canvas.worldCamera.transform.position + canvas.worldCamera.transform.forward * distance;
+        }
+        else
+        {
+            canvas.enabled = true;
+        }
+        steamVrLaserPointer.active = canvas.enabled;
     }
 }
