@@ -10,16 +10,21 @@ public class SpawnSpiders : MonoBehaviour
     public GameObject Spider;
     void Start()
     {
-        GenerateSpider();
+        // GenerateSpiders();
     }
 
-    void GenerateSpider()
+    void GenerateSpiders()
     {
         for (int i = 0; i < InitialSpiderCount; i++)
         {
             SpawnEntityOnField(Spider);
             Debug.Log("Spawned Spider");
         }
+    }
+
+    public void SpawnSpider()
+    {
+        SpawnEntityOnField(Spider);
     }
     void SpawnEntityOnField(GameObject obj)
     {
