@@ -26,7 +26,7 @@ public class SpawnSpiders : MonoBehaviour
         float spawnZ = Random.Range(SpawnRangeZmin, SpawnRangeZmax);
         float spawnX = Random.Range(SpawnRangeXmin, SpawnRangeXmax);
 
-        Vector3 spawnPosition = new Vector3(spawnX, SpawnRangeY, spawnZ);
+        Vector3 spawnPosition = new Vector3(spawnX, SpawnY, spawnZ);
         Vector3 scale = new Vector3(SpiderScale,SpiderScale,SpiderScale);
         //obj.AddComponent(walking);
         obj.transform.localScale = scale;
