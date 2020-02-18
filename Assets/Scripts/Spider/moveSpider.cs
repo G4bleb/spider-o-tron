@@ -6,31 +6,30 @@ public class MoveSpider : MonoBehaviour
 {
     Vector3 direction = Vector3.zero;
     // Start is called before the first frame update
-    public float speed, AreaXmin, AreaZmin, AreaXmax, AreaZmax;
+    public float speed, AreaXmin, AreaXmax, AreaZmin, AreaZmax;
     public int directionChangesProba; //if its high, it will change less direction
 
     private float reachX, reachZ;
-    private Animation anim;
+    private Animation walking;
     void Start()
     {
-        anim = GetComponent<Animation>();
+        walking = GetComponent<Animation>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        // TryDestinationUpdtate();
+        TryDestinationUpdtate();
 
-        // if (reachX - this.transform.position.x<0.1 && reachZ - this.transform.position.z<0.1)
-        // {
-        //     this.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-        //     // walking.Stop();
-        // }
+        if (reachX - this.transform.position.x < 0.1 & reachZ - this.transform.position.z < 0.1)
+        {
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            walking.Stop();
+        }
     }
-    //drawing functions
+
     public void DrawingSetup()
     {
-        var dir = this.gameObject.GetComponent<Rigidbody>().velocity;
+        Vector3 dir = GetComponent<Rigidbody>().velocity;
         float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
         transform.eulerAngles = new Vector3(0, angle);
     }
@@ -48,8 +47,8 @@ public class MoveSpider : MonoBehaviour
             direction.x = reachX - this.transform.position.x;
             direction.z = reachZ - this.transform.position.z;
             direction.Normalize();
-            this.gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
-            // walking.Play();
+            GetComponent<Rigidbody>().velocity = direction * speed;
+            walking.Play();
             DrawingSetup();
         }
     }
