@@ -5,9 +5,9 @@ using UnityEngine;
 public class SpawnSpiders : MonoBehaviour
 {
     // Start is called before the first frame update
-    public int nbSpiderInit, SpawnRangeXmin, SpawnRangeXmax, SpawnRangeZmin, SpawnRangeZmax, SpawnY;
-    public float SpiderScale;
-    private GameObject spider;
+    public int InitialSpiderCount;
+    public float SpiderScale, SpawnRangeXmin, SpawnRangeXmax, SpawnRangeZmin, SpawnRangeZmax, SpawnY;
+    public GameObject Spider;
     void Start()
     {
         GenerateSpider();
@@ -15,9 +15,9 @@ public class SpawnSpiders : MonoBehaviour
 
     void GenerateSpider()
     {
-        for (int i = 0; i < nbSpiderInit; i++)
+        for (int i = 0; i < InitialSpiderCount; i++)
         {
-            SpawnEntityOnField(this.spider);
+            SpawnEntityOnField(Spider);
             Debug.Log("Spawned Spider");
         }
     }
