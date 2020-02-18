@@ -8,7 +8,7 @@
  
      private void Awake()
      {
-         steamVrLaserPointer = gameObject.GetComponent<SteamVR_LaserPointer>();
+         steamVrLaserPointer = GetComponent<SteamVR_LaserPointer>();
          steamVrLaserPointer.PointerIn += OnPointerIn;
          steamVrLaserPointer.PointerOut += OnPointerOut;
          steamVrLaserPointer.PointerClick += OnPointerClick;
