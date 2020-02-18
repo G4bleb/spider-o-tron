@@ -2,32 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class moveSpider : MonoBehaviour
+public class MoveSpider : MonoBehaviour
 {
-    Vector3 direction = new Vector3(0, 0, 0);
+    Vector3 direction = Vector3.zero;
     // Start is called before the first frame update
-    [SerializeField]
-    private float speed, AreaXmin, AreaZmin, AreaXmax, AreaZmax;
-    [SerializeField]
-    private int directionChangesProba; //if its high, it will change less direction
+    public float speed, AreaXmin, AreaZmin, AreaXmax, AreaZmax;
+    public int directionChangesProba; //if its high, it will change less direction
 
     private float reachX, reachZ;
-    private Animation walking;
+    private Animation anim;
     void Start()
     {
-        walking = this.GetComponent<Animation>();
+        anim = GetComponent<Animation>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        TryDestinationUpdtate();
+        // TryDestinationUpdtate();
 
-        if (reachX - this.transform.position.x<0.1 && reachZ - this.transform.position.z<0.1)
-        {
-            this.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-            walking.Stop();
-        }
+        // if (reachX - this.transform.position.x<0.1 && reachZ - this.transform.position.z<0.1)
+        // {
+        //     this.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+        //     // walking.Stop();
+        // }
     }
     //drawing functions
     public void DrawingSetup()
@@ -45,13 +43,13 @@ public class moveSpider : MonoBehaviour
             {
                 reachZ = Random.Range(AreaZmin,AreaZmax);
                 reachX = Random.Range(AreaXmin, AreaXmax);
-            } while (reachX - this.transform.position.x < 3 && reachZ - this.transform.position.z < 3);
+            } while (reachX - this.transform.position.x < 1 & reachZ - this.transform.position.z < 1);
 
             direction.x = reachX - this.transform.position.x;
             direction.z = reachZ - this.transform.position.z;
             direction.Normalize();
             this.gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
-            walking.Play();
+            // walking.Play();
             DrawingSetup();
         }
     }
