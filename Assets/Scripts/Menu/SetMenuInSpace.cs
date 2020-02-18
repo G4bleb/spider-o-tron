@@ -19,10 +19,6 @@ public class SetMenuInSpace : MonoBehaviour
 
     private void OnMenuBtnActionDown(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource)
     {
-        // canvas.enabled = true;
-        // canvas.renderMode = RenderMode.ScreenSpaceCamera;
-        // canvas.planeDistance = distance;
-        // canvas.renderMode = RenderMode.WorldSpace;
         if (canvas.enabled)
         {
             canvas.enabled = false;
@@ -32,6 +28,6 @@ public class SetMenuInSpace : MonoBehaviour
         {
             canvas.enabled = true;
         }
-        steamVrLaserPointer.active = canvas.enabled;
+        steamVrLaserPointer.pointer.SetActive(canvas.enabled);
     }
 }
