@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnSpiders : MonoBehaviour
 {
     // Start is called before the first frame update
-    public int nbSpiderInit, SpawnRangeXmin, SpawnRangeXmax, SpawnRangeZmin, SpawnRangeZmax, SpawnRangeY;
+    public int nbSpiderInit, SpawnRangeXmin, SpawnRangeXmax, SpawnRangeZmin, SpawnRangeZmax, SpawnY;
     public float SpiderScale;
     private GameObject spider;
     void Start()
