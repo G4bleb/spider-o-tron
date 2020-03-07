@@ -28,6 +28,11 @@ public class SetMenuInSpace : MonoBehaviour
         {
             canvas.enabled = true;
         }
+        UpdatePointerState();
+    }
+
+    private void UpdatePointerState(){
         steamVrLaserPointer.pointer.SetActive(canvas.enabled);
     }
+
 }

@@ -4,52 +4,56 @@ using UnityEngine;
 
 public class MoveSpider : MonoBehaviour
 {
-    Vector3 direction = Vector3.zero;
-    // Start is called before the first frame update
-    public float speed, AreaXmin, AreaXmax, AreaZmin, AreaZmax;
-    public int directionChangesProba; //if its high, it will change less direction
+    public float speed = 1f, radius = 1f;
+    [Tooltip("Probability percentage of direction change every AI tick")]
+    public float directionChangeProba = 50f;
+    
+    [SerializeField] private float AITickRate = .3f;
 
-    private float reachX, reachZ;
-    private Animation walking;
+    private Vector3 objective;
+    private Animation walkingAnim;
+    private Rigidbody rb;
+
     void Start()
     {
-        walking = GetComponent<Animation>();
+        walkingAnim = GetComponent<Animation>();
+        rb = GetComponent<Rigidbody>();
+        objective = transform.position;
+        StartCoroutine(DecideAndMove());
     }
 
     void FixedUpdate()
     {
-        TryDestinationUpdtate();
-
-        if (reachX - this.transform.position.x < 0.1 & reachZ - this.transform.position.z < 0.1)
+        if (objective.x - transform.position.x < 0.01 & objective.z - transform.position.z < 0.01)
         {
-            GetComponent<Rigidbody>().velocity = Vector3.zero;
-            walking.Stop();
+            rb.velocity = Vector3.zero;
+            walkingAnim.Stop();
         }
     }
 
-    public void DrawingSetup()
-    {
-        Vector3 dir = GetComponent<Rigidbody>().velocity;
-        float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
-        transform.eulerAngles = new Vector3(0, angle);
+    private Vector3 FindObjective(){
+        Vector2 objXZ = Random.insideUnitCircle * radius;
+        objective = new Vector3(objXZ.x, transform.position.y, objXZ.y);
+        return objective;
     }
-    public void TryDestinationUpdtate()
-    {
-        int random = Random.Range(0, directionChangesProba);
-        if (random == 1) //change destination
-        {
-            do
-            {
-                reachZ = Random.Range(AreaZmin,AreaZmax);
-                reachX = Random.Range(AreaXmin, AreaXmax);
-            } while (reachX - this.transform.position.x < 1 & reachZ - this.transform.position.z < 1);
 
-            direction.x = reachX - this.transform.position.x;
-            direction.z = reachZ - this.transform.position.z;
-            direction.Normalize();
-            GetComponent<Rigidbody>().velocity = direction * speed;
-            walking.Play();
-            DrawingSetup();
+    private void MoveToObjective(){
+        Vector3 direction = objective - transform.position;
+        direction.Normalize();
+        direction.y = 0;
+        rb.velocity = direction * speed;
+        walkingAnim.Play();
+    }
+
+    IEnumerator DecideAndMove(){
+        while(true){
+            if(Random.value * 100 >= directionChangeProba){ //50% chance
+                rb.velocity = Vector3.zero;
+                FindObjective();
+                transform.LookAt(objective);
+                MoveToObjective();
+            }
+            yield return new WaitForSeconds(.3f);
         }
     }
 }
